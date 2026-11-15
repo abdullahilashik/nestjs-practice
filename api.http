@@ -1,0 +1,24 @@
+### Create a new post
+POST http://localhost:3000/posts/create
+Content-Type: application/json
+Accept: application/json
+
+{
+    "title": "Post title v1",
+    "content": "Post content example v2",
+    "keywords": [
+        "k1",
+        "k2",
+        "k3"
+    ]
+}
+
+
+### Fetch All posts
+GET http://localhost:3000/posts
+Content-Type: application/json
+
+
+### Delete post by uuid
+DELETE http://localhost:3000/posts/delete/a60bf854-893d-4a37-9a60-4e778fd4cbe0
+Content-Type: application/json
