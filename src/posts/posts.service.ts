@@ -22,6 +22,10 @@ export class PostsService {
     }
     // delete a post    
     async deletePost (id: string) : Promise<IPost[]> {
+        const ifExists = this.posts.find(item => item.id == id);
+        if(!ifExists) {
+            return [];
+        }
         this.posts = this.posts.filter(
             item => item.id !== id
         )          
