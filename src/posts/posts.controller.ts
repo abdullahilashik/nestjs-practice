@@ -1,11 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, Post } from '@nestjs/common';
 import type { IPost } from './dto/post.dto.js';
 import { PostsService } from './posts.service.js';
 
 @Controller('posts')
 export class PostsController {
 
-    constructor(private readonly postService: PostsService) {}
+    constructor(
+        // private readonly postService: PostsService
+        @Inject('POST_SERVICE') private readonly postService: PostsService
+    ) {}
 
     // create a new post
     @Post('create')
