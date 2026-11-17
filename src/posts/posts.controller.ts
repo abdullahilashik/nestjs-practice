@@ -27,7 +27,7 @@ export class PostsController {
     // remove a post
     @Delete('/delete/:id')
     async deletePost(@Param('id') id: string) {        
-        const response = await this.postService.deletePost(id);        
+        const response = await this.postService.deletePost(id);
         
         return {
             "data" : response,

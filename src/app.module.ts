@@ -3,9 +3,11 @@ import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { PostsModule } from './posts/posts.module.js';
 import { ConfigModule } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true
     }),
