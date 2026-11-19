@@ -3,16 +3,16 @@ import { Cron, Interval, SchedulerRegistry, Timeout } from '@nestjs/schedule';
 
 @Injectable()
 export class SchedulerService {
-    
+
     private readonly logger = new Logger(SchedulerService.name);
 
     constructor(
         private readonly schedulerRegistry: SchedulerRegistry
-    ) {}
+    ) { }
 
     // schedule basic
     @Cron('*/10 * * * * *', {
-        name : 'cron'
+        name: 'cron'
     }) // everyday at 3
     basicCron() {
         const job = this.schedulerRegistry.getCronJob('cron');
@@ -24,16 +24,16 @@ export class SchedulerService {
     }
 
     // interval
-    @Interval('notification', 1000 * 10)
-    perTenSecondsInterval() {
-        this.logger.log(`This code runs in every ${new Date().getTime()} seconds!`);
-    }
+    // @Interval('notification', 1000 * 10)
+    // perTenSecondsInterval() {
+    //     this.logger.log(`This code runs in every ${new Date().getTime()} seconds!`);
+    // }
 
     // timeout
-    @Timeout('timeout', 10 * 1000)
-    timeoutInTenSeconds() {
-        this.logger.warn(`Timeout triggered after ${new Date().getTime()} seconds`);
-    }
+    // @Timeout('timeout', 10 * 1000)
+    // timeoutInTenSeconds() {
+    //     this.logger.warn(`Timeout triggered after ${new Date().getTime()} seconds`);
+    // }
 
     // Clear cron job, interval and timeout
     clearCrons(
@@ -41,7 +41,7 @@ export class SchedulerService {
         intervalName: string,
         timeoutName: string
     ) {
-        const cronJob = this.schedulerRegistry.getCronJob(cronName);   
+        const cronJob = this.schedulerRegistry.getCronJob(cronName);
         cronJob.stop(); // stop the cron job immediately
 
         const interval = this.schedulerRegistry.getInterval(intervalName);
@@ -61,11 +61,35 @@ export class SchedulerService {
         const job = this.schedulerRegistry.getCronJob('cron');
 
         // stop the job 
-        job.stop(); // stop the job
+        // job.stop(); // stop the job
         this.logger.warn(`Stopped job last ran ${job.lastDate()}`);
-        this.logger.fatal(`Next scheduled time is`)
+        this.logger.fatal(`Next scheduled time is ${job.nextDate()}`)
 
         return true;
+    }
+
+    // get all cron jobs
+    getAllJobs() {
+        let response: any = [];
+        const jobs = this.schedulerRegistry.getCronJobs();
+        jobs.forEach((value, key, map) => {
+            let next;
+            try {
+                next = value.nextDate().toJSDate();
+            } catch (e) {
+                this.logger.error(`Failed to get the next date`);
+            }
+
+            this.logger.log(`Job: ${key} => next: ${next}`);
+            response.push({
+                job: key,
+                map: map,
+                next: next,
+                lastRan: value.lastDate()
+            });
+        });
+
+        return response;
     }
 
     // add dynamic cron job
