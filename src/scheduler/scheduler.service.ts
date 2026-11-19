@@ -112,6 +112,8 @@ export class SchedulerService {
 
         const interval = setInterval(callback, seconds);
         this.schedulerRegistry.addInterval(name, interval);
+
+        
     }
     // add dynamic timeout
 }
