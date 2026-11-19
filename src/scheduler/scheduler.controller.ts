@@ -28,6 +28,15 @@ export class SchedulerController {
         }
     }
 
+    // add a new cron job
+    @Get('add-job')
+    addCronJob(@Query('name') name: string, @Query('seconds') seconds: string) {
+        this.schedulerService.addCronJob(name, seconds);
+        return {
+            'message' : 'A new cron job has been added!'
+        }
+    }
+
 
     // clear the named crons
     @Get('/clear-named')
