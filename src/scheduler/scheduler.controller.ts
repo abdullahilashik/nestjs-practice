@@ -7,7 +7,7 @@ export class SchedulerController {
 
     constructor(
         private readonly schedulerService: SchedulerService
-    ) {}
+    ) { }
 
 
     @Get()
@@ -15,7 +15,16 @@ export class SchedulerController {
         this.schedulerService.updateCronJob(); // perform update operation on cron job
 
         return {
-            'msg' : 'Update has been performed'
+            'msg': 'Update has been performed'
+        }
+    }
+
+    @Get('jobs')
+    getAllJobs() {
+        const response = this.schedulerService.getAllJobs();
+        return {
+            msg: 'All jobs retrieved',
+            jobs: response
         }
     }
 
