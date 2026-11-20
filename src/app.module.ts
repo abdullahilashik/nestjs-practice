@@ -8,14 +8,17 @@ import { SchedulerModule } from './scheduler/scheduler.module.js';
 
 @Module({
   imports: [
-    ScheduleModule.forRoot(),
+
+    // ScheduleModule.forRoot(),
+    // SchedulerModule,
+
+
     ConfigModule.forRoot({
       isGlobal: true
     }),
     PostsModule,
-    SchedulerModule
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
