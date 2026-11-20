@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, Interval, SchedulerRegistry, Timeout } from '@nestjs/schedule';
+import { CronJob } from 'cron';
 
 @Injectable()
 export class SchedulerService {
@@ -93,6 +94,26 @@ export class SchedulerService {
     }
 
     // add dynamic cron job
+    addCronJob(name: string, seconds: string) {
+        const job = new CronJob(`${seconds} * * * * *`, () => {
+            this.logger.debug(`A new cron job created...`);
+        });
+
+        this.schedulerRegistry.addCronJob(name, job);
+        job.start(); // job started
+
+        this.logger.log(`New job fires up next in ${job.nextDate()} time!`);
+    }
     // add dynamic interval
+    addInterval(name: string, seconds: number) {
+        const callback = () => {
+            this.logger.log(`Dynamic callback runs...`);
+        }
+
+        const interval = setInterval(callback, seconds);
+        this.schedulerRegistry.addInterval(name, interval);
+
+        
+    }
     // add dynamic timeout
 }
