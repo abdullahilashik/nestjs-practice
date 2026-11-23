@@ -9,11 +9,15 @@ pipeline {
         }
 
         stage('Dependencies') {
-            bat `npm i`
+            steps {
+                bat 'npm i'
+            }
         }
 
         stage('Build') {
-            bat `npm run build`
+            steps {
+                bat `npm run build`
+            }
         }
     }
 }
