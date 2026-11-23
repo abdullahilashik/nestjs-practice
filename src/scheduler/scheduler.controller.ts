@@ -33,7 +33,7 @@ export class SchedulerController {
     addCronJob(@Query('name') name: string, @Query('seconds') seconds: string) {
         this.schedulerService.addCronJob(name, seconds);
         return {
-            'message' : 'A new cron job has been added!'
+            'message': 'A new cron job has been added!'
         }
     }
 

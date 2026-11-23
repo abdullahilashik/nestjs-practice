@@ -1,7 +1,9 @@
-import { Controller, Get, Logger, Query } from '@nestjs/common';
+import { Controller, Get, Inject, Logger, Query } from '@nestjs/common';
 import { AppService } from './app.service.js';
 import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule';
 import { CronJob } from 'cron';
+import { CatsService } from './cats/cats.service.js';
+import { CatsList } from './cats/mock.cat.service.js';
 
 @Controller()
 export class AppController {
@@ -10,7 +12,10 @@ export class AppController {
 
   constructor(
     private readonly appService: AppService,
-    private readonly scheduleRegistry: SchedulerRegistry
+    private readonly scheduleRegistry: SchedulerRegistry,
+    private readonly catsService: CatsService,
+    @Inject('CAT_SERVICE') private catService: CatsService,
+    @Inject('CAT_DATA') private catData: typeof CatsList
   ) { }
 
   @Get()
@@ -81,5 +86,16 @@ export class AppController {
 
     this.logger.warn(`CronJob ${name} started....!`);
 
+  }
+
+  @Get('cat-service')
+  catServiceShow() {
+    const source = this.catService.data();
+    const data = this.catData;
+    return {
+      message: 'Coustom provider test',
+      source,
+      data
+    }
   }
 }
