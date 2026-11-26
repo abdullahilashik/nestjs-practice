@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { PostsModule } from './posts/posts.module.js';
@@ -7,6 +7,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { SchedulerModule } from './scheduler/scheduler.module.js';
 import { CatsService } from './cats/cats.service.js';
 import { CatsList, MockCatService } from './cats/mock.cat.service.js';
+import { LoggerMiddleware } from './core/middlewares/logger.middleware.js';
 
 @Module({
   imports: [
@@ -34,4 +35,10 @@ import { CatsList, MockCatService } from './cats/mock.cat.service.js';
     }
   ],
 })
-export class AppModule { }
+export class AppModule implements NestModule{ 
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes('cats');
+  }
+ }
