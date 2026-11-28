@@ -9,6 +9,7 @@ import { CatsService } from './cats/cats.service.js';
 import { CatsList, MockCatService } from './cats/mock.cat.service.js';
 import { LoggerMiddleware } from './core/middlewares/logger.middleware.js';
 import { PostsController } from './posts/posts.controller.js';
+import { MonoovaModule } from './monoova/monoova.module.js';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { PostsController } from './posts/posts.controller.js';
       isGlobal: true
     }),
     PostsModule,
+    MonoovaModule,
     // CatsModule,
   ],
   controllers: [AppController],

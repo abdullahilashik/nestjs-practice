@@ -9,7 +9,7 @@ export class LoggerMiddleware implements NestMiddleware{
         if(!req.headers.authorization) {
             throw new UnauthorizedException('You are not authorized to view this page!');
         }
-
+        
         next();
     }
 }
