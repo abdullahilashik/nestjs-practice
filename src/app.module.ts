@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { PostsModule } from './posts/posts.module.js';
@@ -8,6 +8,7 @@ import { SchedulerModule } from './scheduler/scheduler.module.js';
 import { CatsService } from './cats/cats.service.js';
 import { CatsList, MockCatService } from './cats/mock.cat.service.js';
 import { LoggerMiddleware } from './core/middlewares/logger.middleware.js';
+import { PostsController } from './posts/posts.controller.js';
 
 @Module({
   imports: [
@@ -39,6 +40,9 @@ export class AppModule implements NestModule{
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(LoggerMiddleware)
-      .forRoutes('cats');
+      .forRoutes({
+        path: 'posts/{*splat}',
+        method: RequestMethod.POST
+      });
   }
  }

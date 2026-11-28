@@ -2,6 +2,7 @@
 POST http://localhost:3000/posts/create
 Content-Type: application/json
 Accept: application/json
+Authorization: Bearer test-token
 
 {
     "title": "Post title v1",
